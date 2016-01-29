@@ -1,0 +1,21 @@
+{
+    "name": "bugadani/marky",
+    "description": "A simple extensible Markdown library",
+    "minimum-stability": "dev",
+    "license": "MIT",
+    "type": "library",
+    "require": {
+        "php": ">=5.4"
+    },
+    "authors": [
+        {
+            "name": "Dániel Buga",
+            "email": "bugadani@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Marky\\": "src/"
+        }
+    }
+}
