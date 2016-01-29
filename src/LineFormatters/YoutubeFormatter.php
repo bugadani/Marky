@@ -6,6 +6,7 @@ use Marky\AbstractLineFormatter;
 
 class YoutubeFormatter extends AbstractLineFormatter
 {
+    private static $pattern = '<div class="youtubeWrapper"><iframe class="youtube" src="http://www.youtube.com/embed/%s" frameborder="0" allowfullscreen></iframe></div>';
 
     public function getPattern()
     {
@@ -14,8 +15,6 @@ class YoutubeFormatter extends AbstractLineFormatter
 
     public function format($matches)
     {
-        $pattern = '<div class="youtubeWrapper"><iframe class="youtube" src="http://www.youtube.com/embed/%s" frameborder="0" allowfullscreen></iframe></div>';
-
-        return sprintf($pattern, $matches[1]);
+        return sprintf(self::$pattern, $matches[1]);
     }
 }
