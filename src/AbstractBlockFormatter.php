@@ -15,7 +15,7 @@ abstract class AbstractBlockFormatter
     }
 
     /**
-     * @return mixed
+     * @return Markdown
      */
     public function getFormatter()
     {

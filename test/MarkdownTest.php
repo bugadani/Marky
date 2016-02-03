@@ -1,9 +1,11 @@
 <?php
 
+namespace Marky\Test;
+
 use Marky\LineFormatters\YoutubeFormatter;
 use Marky\Markdown;
 
-class MarkdownTest extends PHPUnit_Framework_TestCase
+class MarkdownTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var Markdown
@@ -17,14 +19,14 @@ class MarkdownTest extends PHPUnit_Framework_TestCase
 
     public function fixtureProvider()
     {
-        return array(
-            array('0.txt', '0_expectation.txt'),
-            array('1.txt', '1_expectation.txt'),
-            array('2.txt', '2_expectation.txt'),
-            array('3.txt', '3_expectation.txt'),
-            array('4.txt', '4_expectation.txt'),
-            array('5.txt', '5_expectation.txt')
-        );
+        return [
+            ['0.txt', '0_expectation.txt'],
+            ['1.txt', '1_expectation.txt'],
+            ['2.txt', '2_expectation.txt'],
+            ['3.txt', '3_expectation.txt'],
+            ['4.txt', '4_expectation.txt'],
+            ['5.txt', '5_expectation.txt']
+        ];
     }
 
     /**
@@ -35,7 +37,7 @@ class MarkdownTest extends PHPUnit_Framework_TestCase
         $result = $this->markdown->format(file_get_contents(__DIR__ . '/Fixtures/' . $source));
 
         $expected = file_get_contents(__DIR__ . '/Fixtures/' . $expectation);
-        $expected = strtr($expected, array("\r\n" => "\n"));
+        $expected = strtr($expected, ["\r\n" => "\n"]);
 
         $this->assertEquals($expected, $result . "\n");
     }
@@ -46,7 +48,7 @@ class MarkdownTest extends PHPUnit_Framework_TestCase
 
         $expected = '<p><a href="mailto:mail@domain.at">mail@domain.at</a></p>';
 
-        // strings do not equal due to randomization
+        // strings do not equal due to randomization - actually, this assert may fail in some random cases
         $this->assertNotEquals($expected, $result);
         $this->assertEquals($expected, html_entity_decode($result));
     }

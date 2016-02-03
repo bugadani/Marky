@@ -7,11 +7,19 @@ use Marky\Markdown;
 
 class StandardFormatters extends AbstractLineFormatter
 {
+    /**
+     * @var callback[]
+     */
     private $formatters;
+
+    /**
+     * @var
+     */
     private $links;
 
     public function __construct(Markdown $markdown)
     {
+        parent::__construct($markdown);
         $this->formatters = [
             1  => [$this, 'formatCode'],
             3  => [$this, 'formatImage'],
@@ -21,9 +29,8 @@ class StandardFormatters extends AbstractLineFormatter
             13 => [$this, 'formatAutoLink'],
             14 => [$this, 'formatAutoEmail'],
             15 => [$this, 'formatBold'],
-            17 => [$this, 'formatItalic'],
+            17 => [$this, 'formatItalic']
         ];
-        parent::__construct($markdown);
     }
 
     private function collectLinkDefinition($matches)
@@ -58,7 +65,6 @@ class StandardFormatters extends AbstractLineFormatter
             parent::prepare($text)
         );
     }
-
 
     public function getPattern()
     {
@@ -169,23 +175,25 @@ class StandardFormatters extends AbstractLineFormatter
 
     private function randomize($str)
     {
-        $out    = '';
-        $strLen = strlen($str);
-        for ($i = 0; $i < $strLen; $i++) {
-            switch (rand(0, 2)) {
-                case 0:
-                    $out .= '&#' . ord($str[ $i ]) . ';';
-                    break;
-                case 1:
-                    $out .= $str[ $i ];
-                    break;
-                case 2:
-                    $out .= '&#x' . dechex(ord($str[ $i ])) . ';';
-                    break;
-            }
-        }
+        return implode(
+            '',
+            array_map(
+                function ($char) {
+                    $rand = rand(0, 2);
+                    if ($rand !== 0) {
+                        $ord = ord($char);
+                        if ($rand === 1) {
+                            $char = '&#' . $ord . ';';
+                        } else {
+                            $char = '&#x' . dechex($ord) . ';';
+                        }
+                    }
 
-        return $out;
+                    return $char;
+                },
+                str_split($str)
+            )
+        );
     }
 
     public function format($matches)

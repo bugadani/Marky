@@ -12,19 +12,21 @@ class ParagraphFormatter extends AbstractBlockFormatter
         $markdown = $this->getFormatter();
         $text     = $markdown->hashHTML($text);
 
+        //Remove leading and trailing newlines
         $text  = preg_replace(['/^\n+/', '/\n+$/'], '', $text);
-        $lines = preg_split('/\n{2,}/', $text);
+        $lines = array_map(
+            function ($line) use ($markdown) {
+                if ($markdown->hasHTML($line)) {
+                    return $markdown->getHTML($line);
+                } else {
+                    $line = $markdown->formatLine($line);
+                    $line = ltrim($line);
 
-        $formatter = function ($line) use ($markdown) {
-            if ($markdown->hasHTML($line)) {
-                return $markdown->getHTML($line);
-            }
-            $line = $markdown->formatLine($line) . '</p>';
-
-            return preg_replace('/^([ \t]*)/', '<p>', $line);
-        };
-
-        $lines = array_map($formatter, $lines);
+                    return "<p>{$line}</p>";
+                }
+            },
+            preg_split('/\n{2,}/', $text)
+        );
 
         return implode("\n\n", $lines);
     }

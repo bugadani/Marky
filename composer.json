@@ -17,5 +17,10 @@
         "psr-4": {
             "Marky\\": "src/"
         }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Marky\\Test\\": "test/"
+        }
     }
 }
