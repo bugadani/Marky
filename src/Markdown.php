@@ -9,6 +9,7 @@ use Marky\BlockFormatters\HorizontalRuleFormatter;
 use Marky\BlockFormatters\ListFormatter;
 use Marky\BlockFormatters\ParagraphFormatter;
 use Marky\LineFormatters\StandardFormatters;
+use Marky\LineFormatters\YoutubeFormatter;
 
 class Markdown
 {
@@ -73,6 +74,7 @@ class Markdown
     public function __construct()
     {
         $this->addLineFormatter(new StandardFormatters($this));
+        $this->addLineFormatter(new YoutubeFormatter($this));
 
         $this->addBlockFormatter(new ParagraphFormatter($this));
         $this->addBlockFormatter(new BlockQuoteFormatter($this));
